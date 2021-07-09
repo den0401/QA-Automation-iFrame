@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Aquality.Selenium.Template.Forms.Pages;
+using Aquality.Selenium.Template.Configuration;
 
 namespace iFrameTests
 {
@@ -7,13 +8,14 @@ namespace iFrameTests
     public class Tests: BaseTest
     {
         [Test]
-        public void CardsAreFilled()
+        public void InputtedTextIsBold()
         {
             MainPage mainPage = new MainPage();
-            Assert.AreEqual(mainPage.InputRandomText(), mainPage.InputtedText());
+            Assert.AreEqual(Configuration.PageTitle, mainPage.GetPageTitle(), "Page title is not displayed");
+            Assert.AreEqual(mainPage.InputRandomText(), mainPage.GetInputtedText(), "Inputted text and created random text are not equal!");
 
-            mainPage.GetTextBold();
-            Assert.IsTrue(mainPage.IsTextBold());
+            mainPage.MakeTextBold();
+            Assert.IsTrue(mainPage.IsTextBold(), "Text is not bold!");
         }        
     }
 }

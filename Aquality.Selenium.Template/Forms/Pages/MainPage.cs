@@ -8,13 +8,14 @@ namespace Aquality.Selenium.Template.Forms.Pages
 {
     public class MainPage : Form
     {
-        private const int _indexOfFrame = 0;
+        private const int IndexOfFrame = 0;
 
         private ITextBox FrameTextAreaElement => ElementFactory.GetTextBox(By.Id("tinymce"), "Frame");
         private ITextBox BoldText => ElementFactory.GetTextBox(By.XPath("//strong"), "Bold text");        
-        private IButton SelectAllBtn => ElementFactory.GetButton(By.XPath("//div[@title='Select all']"), "Select all button");
-        private IButton EditBtn => ElementFactory.GetButton(By.XPath("//span[text() = 'Edit']"), "Edit button");
-        private IButton BoldBtn => ElementFactory.GetButton(By.XPath("//button[@title='Bold']"), "Bold button");
+        private IButton SelectAllBtn => ElementFactory.GetButton(By.XPath("//div[@title='Select all']"), "Select all");
+        private IButton EditBtn => ElementFactory.GetButton(By.XPath("//span[text() = 'Edit']"), "Edit");
+        private IButton BoldBtn => ElementFactory.GetButton(By.XPath("//button[@title='Bold']"), "Bold");
+        private ILabel PageTitle => ElementFactory.GetLabel(By.XPath("//h3"), "Page header text");
 
         public MainPage() : base(By.XPath("//div[@class='example']"), "Main page")
         {
@@ -24,7 +25,7 @@ namespace Aquality.Selenium.Template.Forms.Pages
         {
             RandomTextGenerator randomText = new RandomTextGenerator();
 
-            SwitchToFrame(_indexOfFrame);
+            SwitchToFrame(IndexOfFrame);
 
             string randomSentence = randomText.GetRandomSentence(Configuration.Configuration.CountOfRandomWords);
 
@@ -33,7 +34,7 @@ namespace Aquality.Selenium.Template.Forms.Pages
             return randomSentence;
         }
 
-        public void GetTextBold()
+        public void MakeTextBold()
         {
             AqualityServices.Browser.Driver.SwitchTo().DefaultContent();
 
@@ -41,14 +42,16 @@ namespace Aquality.Selenium.Template.Forms.Pages
             SelectAllBtn.WaitAndClick();
             BoldBtn.Click();
 
-            SwitchToFrame(_indexOfFrame);
+            SwitchToFrame(IndexOfFrame);
 
             FrameTextAreaElement.Click();
         }
 
         public bool IsTextBold() => BoldText.State.IsDisplayed;
 
-        public string InputtedText() => FrameTextAreaElement.GetText();
+        public string GetInputtedText() => FrameTextAreaElement.GetText();
+
+        public string GetPageTitle() => PageTitle.Text;
 
         public void SwitchToFrame(int indexOfFrame) => AqualityServices.Browser.Driver.SwitchTo().Frame(indexOfFrame);
     }

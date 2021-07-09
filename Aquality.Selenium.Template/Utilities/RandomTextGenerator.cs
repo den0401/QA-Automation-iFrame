@@ -7,39 +7,47 @@ namespace Aquality.Selenium.Template.Utilities
     {
         private readonly Random _random;
 
-        private const int _asciiUpperLettersQuantity = 26;
-        private const int _asciiALetter = 65;
-        private readonly string[] words = { "an", "automobile", "or", "motor", "car", "is", "a", "wheeled", "motor", "vehicle", "used", "for", "transporting", "passengers", "which", "also", "carries", "its", "own", "engine", "or" };
+        private const int AsciiUpperLettersQuantity = 26;
+        private const int AsciiALetter = 65;
 
         public RandomTextGenerator()
             {
                 _random = new Random();
             }
 
-        public string GetRandomTextUpper(int size)
+        public string GetRandomWord()
         {
             StringBuilder builder = new StringBuilder();
 
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < _random.Next(Configuration.Configuration.MinLettersInWord, Configuration.Configuration.MaxLettersInWord); i++)
             {
-                builder.Append(Convert.ToChar(Convert.ToInt32(Math.Floor(_asciiUpperLettersQuantity * _random.NextDouble() + _asciiALetter))));
+                builder.Append(Convert.ToChar(Convert.ToInt32(Math.Floor(AsciiUpperLettersQuantity * _random.NextDouble() + AsciiALetter))));
             }
 
-            return builder.ToString();
+            return builder.ToString().ToLower();
         }
 
-        public string GetRandomTextLower(int size)
+        public string[] GetWordsArray()
         {
-            return this.GetRandomTextUpper(size).ToLower();
+            string[] words = new string[_random.Next(Configuration.Configuration.MinWordsInSentence, Configuration.Configuration.MaxWordsInSentence)];            
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                words[i] = GetRandomWord();
+            }
+
+            return words;
         }
 
         public string GetRandomSentence(int wordCount)
         {
             StringBuilder builder = new StringBuilder();
 
+            string[] _words = GetWordsArray();
+
             for (int i = 0; i < wordCount; i++)
             {
-                builder.Append(words[_random.Next(words.Length)]).Append(" ");
+                builder.Append(_words[_random.Next(_words.Length)]).Append(" ");
             }
 
             string sentence = builder.ToString().Trim() + ". ";

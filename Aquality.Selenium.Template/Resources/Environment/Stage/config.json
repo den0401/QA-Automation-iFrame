@@ -1,0 +1,9 @@
+﻿{
+  "url": "http://the-internet.herokuapp.com/iframe",
+  "countOfRandomWords": "10",
+  "pageTitle": "An iFrame containing the TinyMCE WYSIWYG Editor",
+  "minLettersNumberInWord": 1,
+  "maxLettersNumberInWord": 10,
+  "minWordsInSentence": 10,
+  "maxWordsInSentence": 100
+}
